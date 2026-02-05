@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<div id="simulateur-tarif-garderie" class="formulaire">
+  <label for="quotient-familial">Entrez votre quotient familial :</label>
+  <input type="number" id="quotient-familial" step="0.01" min="0" />
+  <button id="calculer">Calculer</button>
+  <div id="resultat">Tarif garderie : <b><span id="tarif"></span></b></div>
+</div>
+</html>
+<script>
+    document.getElementById('calculer').addEventListener('click', function() {
+    var quotientFamilial = parseFloat(document.getElementById('quotient-familial').value);
+    var tarif = calculerTarif(quotientFamilial);
+    if (quotientFamilial < 0 || isNaN(quotientFamilial)) {
+        document.getElementById('tarif').innerText = "";
+    }
+    if (quotientFamilial >= 0) {
+        document.getElementById('tarif').innerText = tarif.toFixed(2) + " €";
+    }
+  });
+
+  function calculerTarif(quotientFamilial) {
+    if (quotientFamilial >= 0 && quotientFamilial < 2188.7) {
+      var tarif = 0.000512 * quotientFamilial + 0.26; // Tranche 1
+      return Math.min(tarif, 1.37); // Limite à 1.37 maximum
+    } else if (quotientFamilial >= 2188.7) {
+      return 0.00 * quotientFamilial + 1.37; // Tranche 2
+    } else {
+      return 0;
+    }
+  }
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+
+    #simulateur-tarif-garderie {
+      max-width: 320px;
+      padding: 20px;
+      border-radius: 10px;
+      margin : 0 auto;
+    }
+    #quotient-familial {
+        width: 100px;
+    }
+    .formulaire {
+        font-family: 'Open Sans', sans-serif;
+        background-color: #162D4A;
+        color: white;
+        font-size: 14px;
+    }
+    .formulaire button {
+        background-color: #E44022;
+        border: none;
+        color: white;
+        padding: 4px 8px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 55px;
+        transition-duration: 0.4s;
+    }
+    .formulaire button:hover {
+        -moz-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.2);
+        -webkit-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.2);
+    }
+    #resultat {
+      margin-top: 20px;
+    }
+  </style>
+  
